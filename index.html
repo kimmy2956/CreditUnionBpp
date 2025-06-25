@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สวัสดิการวันเกิด</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding-top: 50px;
+    }
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .result {
+      font-size: 1.2rem;
+      color: green;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card p-4">
+          <h1 class="text-center mb-4">สวัสดิการวันเกิด</h1>
+          <p class="text-center">คำนวณจำนวนปี เพื่อรับสิทธิ์เงินสวัสดิการวันเกิด</p>
+          <div class="mb-3">
+            <label for="startDate" class="form-label">วันเริ่มต้น:</label>
+            <input type="date" class="form-control" id="startDate">
+          </div>
+          <div class="mb-3">
+            <label for="endDate" class="form-label">วันสิ้นสุด:</label>
+            <input type="date" class="form-control" id="endDate">
+          </div>
+          <button class="btn btn-primary w-100" onclick="calculateBenefit()">คำนวณ</button>
+          <div class="result text-center" id="result"></div>
+          <hr>
+          <p class="text-muted text-center">
+            <strong>ขั้นตอนการรับเงิน:</strong><br>
+            ใช้บัตรประชาชนยื่นที่สวัสดิการเครดิตยูเนี่ยน
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateBenefit() {
+      const start = new Date(document.getElementById('startDate').value);
+      const end = new Date(document.getElementById('endDate').value);
+      if (isNaN(start) || isNaN(end)) {
+        document.getElementById('result').innerText = 'กรุณาเลือกวันที่ให้ครบ';
+        return;
+      }
+
+      let years = end.getFullYear() - start.getFullYear();
+      if (end.getMonth() < start.getMonth() || (end.getMonth() === start.getMonth() && end.getDate() < start.getDate())) {
+        years--;
+      }
+
+      let amount = 0;
+      if (years >= 1 && years <= 5) {
+        amount = 100;
+      } else if (years >= 6 && years <= 9) {
+        amount = 200;
+      } else if (years >= 10) {
+        amount = 300;
+      } else {
+        document.getElementById('result').innerText = 'ยังไม่ครบคุณสมบัติ';
+        return;
+      }
+
+      document.getElementById('result').innerText = `คุณอยู่ในระบบมาแล้ว ${years} ปี ได้รับเงิน ${amount} บาท`;
+    }
+  </script>
+</body>
+</html>
